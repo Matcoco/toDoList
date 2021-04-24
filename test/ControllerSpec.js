@@ -6,6 +6,7 @@ describe('controller', function () {
 	var subject, model, view;
 
 	var setUpModel = function (todos) {
+	
 		model.read.and.callFake(function (query, callback) {
 			callback = callback || query;
 			callback(todos);

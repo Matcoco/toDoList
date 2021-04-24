@@ -85,19 +85,9 @@
 
 		function generateId() {
 			// Generate an ID
-			var charset = "0123456789";
-			for (var i = 0; i < 10; i++) {
-				newId += charset.charAt(Math.floor(Math.random() * charset.length));
-			}
-			return newId;
+			return new Date().getTime();
 		}
 
-		const assignationId = (bool, newId) => {
-			updateData.id = bool ? parseInt(generateId()) : parseInt(newId);
-			todos.push(updateData);
-			localStorage[this._dbName] = JSON.stringify(data);
-			callback.call(this, [updateData]);
-		}
 
 
 		// If an ID was actually given, find the item and update each property
@@ -114,54 +104,11 @@
 			localStorage[this._dbName] = JSON.stringify(data);
 			callback.call(this, todos);
 		} else {
-
-			// Assign an ID
-			// creer une verification des ids pour eviter les conflits
-			let arrayIdTodo = [];
-			if (data.todos.length > 0) {
-				let id;
-
-				for (let todo of data.todos) {
-					arrayIdTodo.push(todo.id.toString());
-				}
-
-				this.duplicate(arrayIdTodo);
-
-				let toContinue = true;
-				while (toContinue) {
-					newId = "";
-					id = generateId();
-					if (!arrayIdTodo.includes(id)) {
-						toContinue = false;
-					}
-				}
-				assignationId(false, id);
-			} else {
-				assignationId(true);
-			}
+			updateData.id = generateId();
+			todos.push(updateData);
+			localStorage[this._dbName] = JSON.stringify(data);
+			callback.call(this, [updateData]);
 		}
-	};
-
-	Store.prototype.duplicate = function (array) {
-			let arr = array;
-			// empty object
-			let map = {};
-			let result = false;
-			for (let i = 0; i < arr.length; i++) {
-				// check if object contains entry with this element as key
-				if (map[arr[i]]) {
-					result = true;
-					// terminate the loop
-					break;
-				}
-				// add entry in object with the element as key
-				map[arr[i]] = true;
-			}
-			if (result) {
-				console.log('Array contains duplicate elements');
-			} else {
-				console.log('Array does not contain duplicate elements');
-			}
 	};
 
 	/**

@@ -73,9 +73,7 @@ describe('controller', function () {
 		it('should show all entries without a route', function () {
 			var todo = { title: 'my todo' };
 			setUpModel([todo]);
-
 			subject.setView('');
-
 			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
 		});
 

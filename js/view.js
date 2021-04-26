@@ -25,6 +25,7 @@
 		this.$footer = qs('.footer');
 		this.$toggleAll = qs('.toggle-all');
 		this.$newTodo = qs('.new-todo');
+		this.$divToggle = qs('.div-toggleAll');
 	}
 
 	View.prototype._removeItem = function (id) {
@@ -37,7 +38,7 @@
 
 	View.prototype._clearCompletedButton = function (completedCount, visible) {
 		this.$clearCompleted.innerHTML = this.template.clearCompletedButton(completedCount);
-		this.$clearCompleted.style.display = visible ? 'block' : 'none';
+		this.$clearCompleted.style.display = visible ? 'flex' : 'none';
 	};
 
 	View.prototype._setFilter = function (currentPage) {
@@ -93,6 +94,7 @@
 	};
 
 	View.prototype.render = function (viewCmd, parameter) {
+	
 		var self = this;
 		var viewCommands = {
 			showEntries: function () {
@@ -109,6 +111,9 @@
 			},
 			contentBlockVisibility: function () {
 				self.$main.style.display = self.$footer.style.display = parameter.visible ? 'block' : 'none';
+			},
+			inputVisibility: function () {
+				self.$divToggle.style.display = parameter.visible ? 'flex' : 'none';
 			},
 			toggleAll: function () {
 				self.$toggleAll.checked = parameter.checked;

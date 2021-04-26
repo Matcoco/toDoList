@@ -165,7 +165,7 @@
 		/// faire sauter cette boucle => filter
 		items.forEach(function(item) {
 			if (item.id === id) {
-				console.log("Element with ID: " + id + " has been removed.");
+				//console.log("Element with ID: " + id + " has been removed.");
 			}
 		});
 
@@ -240,9 +240,9 @@
 				completed: todos.completed,
 				visible: todos.completed > 0
 			});
-
 			self.view.render('toggleAll', {checked: todos.completed === todos.total});
 			self.view.render('contentBlockVisibility', {visible: todos.total > 0});
+			self.view.render('inputVisibility', {visible: todos.total > 0});
 		});
 	};
 

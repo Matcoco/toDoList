@@ -79,16 +79,13 @@
 
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
-		var newId = "";
-
+	
 		callback = callback || function () { };
 
 		function generateId() {
 			// Generate an ID
 			return new Date().getTime();
 		}
-
-
 
 		// If an ID was actually given, find the item and update each property
 		if (id) {

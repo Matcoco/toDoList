@@ -1,0 +1,40 @@
+header{
+    display: flex;
+}
+
+.toggle-all + label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 45px;
+	height: 65px;
+	font-size: 0;
+	position: relative;
+	top: auto;
+	left: auto;
+}
+
+.toggle-all {
+	width: 20px;
+	height: 20px;
+	border: none; /* Mobile Safari */
+	opacity: 1;
+	position: relative;
+	right: auto;
+	bottom: auto;
+}
+
+
+
+.div-toggleAll {
+    display: flex;
+    width: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-input{
+    width: 100%;
+}
+

@@ -6,15 +6,16 @@ describe('controller', function () {
 	var subject, model, view;
 
 	var setUpModel = function (todos) {
-
 		model.read.and.callFake(function (query, callback) {
-
+			console.log("setUpModel: ", query, callback);
+			console.log("1");
 			callback = callback || query;
 			callback(todos);
 		});
 
 		model.getCount.and.callFake(function (callback) {
-
+			console.log("setUpModel: ", callback);
+			console.log("2");
 			var todoCounts = {
 				active: todos.filter(function (todo) {
 					return !todo.completed;
@@ -29,23 +30,31 @@ describe('controller', function () {
 		});
 
 		model.remove.and.callFake(function (id, callback) {
+			console.log("setUpModel: ",id, callback);
+			console.log("3");
 			callback();
 		});
 
 		model.create.and.callFake(function (title, callback) {
+			console.log("setUpModel: ", title, callback);
+			console.log("4");
 			callback();
 		});
 
 		model.update.and.callFake(function (id, updateData, callback) {
+			console.log("setUpModel: ", id, updateData, callback);
+			console.log("5");
 			callback();
 		});
 	};
 
 	var createViewStub = function () {
 		var eventRegistry = {};
+		console.log(eventRegistry);
 		return {
 			render: jasmine.createSpy('render'),
 			bind: function (event, handler) {
+				
 				eventRegistry[event] = handler;
 			},
 			trigger: function (event, parameter) {
@@ -58,49 +67,16 @@ describe('controller', function () {
 		model = jasmine.createSpyObj('model', ['read', 'getCount', 'remove', 'create', 'update']);
 		view = createViewStub();
 		subject = new app.Controller(model, view);
+		console.log(subject);
 	});
 
-	it('should show entries on start-up', function () {
+
+	fit('should show entries on start-up', function () {
 		// TODO: write test
 		const todos = {};
 		setUpModel([todos]);
 		subject.setView('');
 		expect(view.render).toHaveBeenCalledWith('showEntries', [todos]);
-	});
-
-	describe('routing', function () {
-
-		it('should show all entries without a route', function () {
-			var todo = { title: 'my todo' };
-			setUpModel([todo]);
-			subject.setView('');
-			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
-		});
-
-		it('should show all entries without "all" route', function () {
-			var todo = { title: 'my todo' };
-			setUpModel([todo]);
-
-			subject.setView('#/');
-
-			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
-		});
-
-		it('should show active entries', function () {
-			// TODO: write test
-			const todo = { title: 'faire la vaisselle', completed: false, id: 50 };
-			setUpModel([todo]);
-			subject.setView('#/active');
-			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
-		});
-
-		it('should show completed entries', function () {
-			// TODO: write test
-			const todo = { title: 'faire la vaisselle', completed: false, id: 50 };
-			setUpModel([todo]);
-			subject.setView('#/completed');
-			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
-		});
 	});
 
 	it('should show the content block when todos exists', function () {
@@ -163,7 +139,42 @@ describe('controller', function () {
 		expect(view.render).toHaveBeenCalledWith('setFilter', 'active');
 	});
 
-	describe('toggle all', function () {
+	xdescribe('routing', function () {
+
+		it('should show all entries without a route', function () {
+			var todo = { title: 'my todo' };
+			setUpModel([todo]);
+			subject.setView('');
+			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
+		});
+
+		it('should show all entries without "all" route', function () {
+			var todo = { title: 'my todo' };
+			setUpModel([todo]);
+
+			subject.setView('#/');
+
+			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
+		});
+
+		it('should show active entries', function () {
+			// TODO: write test
+			const todo = { title: 'faire la vaisselle', completed: false, id: 50 };
+			setUpModel([todo]);
+			subject.setView('#/active');
+			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
+		});
+
+		it('should show completed entries', function () {
+			// TODO: write test
+			const todo = { title: 'faire la vaisselle', completed: false, id: 50 };
+			setUpModel([todo]);
+			subject.setView('#/completed');
+			expect(view.render).toHaveBeenCalledWith('showEntries', [todo]);
+		});
+	});
+
+	xdescribe('toggle all', function () {
 		const todos = [{title: 'todo 1', id: 52, completed: false},{title: 'todo 2', id: 54, completed: false}];
 
 		it('should toggle all todos to completed', function () {
@@ -184,7 +195,7 @@ describe('controller', function () {
 		});
 	});
 
-	describe('new todo', function () {
+	xdescribe('new todo', function () {
 		it('should add a new todo to the model', function () {
 			// TODO: write test
 			const todo = [{}];
@@ -230,7 +241,7 @@ describe('controller', function () {
 		});
 	});
 
-	describe('element removal', function () {
+	xdescribe('element removal', function () {
 		it('should remove an entry from the model', function () {
 			// TODO: write test
 			const todo = { id: 21, title: 'my todo', completed: true };
@@ -262,7 +273,7 @@ describe('controller', function () {
 		});
 	});
 
-	describe('remove completed', function () {
+	xdescribe('remove completed', function () {
 		it('should remove a completed entry from the model', function () {
 			var todo = { id: 42, title: 'my todo', completed: true };
 			setUpModel([todo]);
@@ -285,7 +296,7 @@ describe('controller', function () {
 		});
 	});
 
-	describe('element complete toggle', function () {
+	xdescribe('element complete toggle', function () {
 		it('should update the model', function () {
 			var todo = { id: 21, title: 'my todo', completed: false };
 			setUpModel([todo]);
@@ -307,7 +318,7 @@ describe('controller', function () {
 		});
 	});
 
-	describe('edit item', function () {
+	xdescribe('edit item', function () {
 		it('should switch to edit mode', function () {
 			var todo = { id: 21, title: 'my todo', completed: false };
 			setUpModel([todo]);

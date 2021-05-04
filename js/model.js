@@ -25,7 +25,7 @@
 			title: title.trim(),
 			completed: false
 		};
-
+		
 		this.storage.save(newItem, callback);
 	};
 

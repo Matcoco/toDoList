@@ -111,7 +111,7 @@
 	Controller.prototype.editItem = function (id) {
 		var self = this;
 		self.model.read(id, function (data) {
-			self.view.render('editItem', {id: id, title: data[0].title});
+			self.view.render('editItem', { id: id, title: data[0].title });
 		});
 	};
 
@@ -125,13 +125,13 @@
 			title = title.slice(1);
 		}
 
-		while (title[title.length-1] === " ") {
+		while (title[title.length - 1] === " ") {
 			title = title.slice(0, -1);
 		}
 
 		if (title.length !== 0) {
-			self.model.update(id, {title: title}, function () {
-				self.view.render('editItemDone', {id: id, title: title});
+			self.model.update(id, { title: title }, function () {
+				self.view.render('editItemDone', { id: id, title: title });
 			});
 		} else {
 			self.removeItem(id);
@@ -144,7 +144,7 @@
 	Controller.prototype.editItemCancel = function (id) {
 		var self = this;
 		self.model.read(id, function (data) {
-			self.view.render('editItemDone', {id: id, title: data[0].title});
+			self.view.render('editItemDone', { id: id, title: data[0].title });
 		});
 	};
 
@@ -158,12 +158,12 @@
 	Controller.prototype.removeItem = function (id) {
 		var self = this;
 		var items;
-		self.model.read(function(data) {
+		self.model.read(function (data) {
 			items = data;
 		});
 
 		/// faire sauter cette boucle => filter
-		items.forEach(function(item) {
+		items.forEach(function (item) {
 			if (item.id === id) {
 				//console.log("Element with ID: " + id + " has been removed.");
 			}
@@ -240,9 +240,9 @@
 				completed: todos.completed,
 				visible: todos.completed > 0
 			});
-			self.view.render('toggleAll', {checked: todos.completed === todos.total});
-			self.view.render('contentBlockVisibility', {visible: todos.total > 0});
-			self.view.render('inputVisibility', {visible: todos.total > 0});
+			self.view.render('toggleAll', { checked: todos.completed === todos.total });
+			self.view.render('contentBlockVisibility', { visible: todos.total > 0 });
+			self.view.render('inputVisibility', { visible: todos.total > 0 });
 		});
 	};
 
@@ -282,6 +282,14 @@
 
 		this.view.render('setFilter', currentPage);
 	};
+
+	/**
+	* Simply updates the progress bar
+	*/
+	Controller.prototype.progressBar = function () {
+		this.view.calculProgressBar();
+	};
+
 
 	// Export to window
 	window.app = window.app || {};

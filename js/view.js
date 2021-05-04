@@ -4,14 +4,14 @@
 	'use strict';
 
 	/**
-	     * View that abstracts away the browser's DOM completely.
-	     * It has two simple entry points:
-	     *
-	     *   - bind(eventName, handler)
-	     *     Takes a todo application event and registers the handler
-	     *   - render(command, parameterObject)
-	     *     Renders the given command with the options
-	     */
+		 * View that abstracts away the browser's DOM completely.
+		 * It has two simple entry points:
+		 *
+		 *   - bind(eventName, handler)
+		 *     Takes a todo application event and registers the handler
+		 *   - render(command, parameterObject)
+		 *     Renders the given command with the options
+		 */
 	function View(template) {
 		this.template = template;
 
@@ -26,6 +26,11 @@
 		this.$toggleAll = qs('.toggle-all');
 		this.$newTodo = qs('.new-todo');
 		this.$divToggle = qs('.div-toggleAll');
+
+		this.$progressBar = qs('.progress-bar');
+		this.$pourcentProgress = qs('#pourcentProgress');
+		this.$todoCompleted = qsa('.todo-list li.completed');
+		this.$todoNotCompleted = qsa('.todo-list li');
 	}
 
 	View.prototype._removeItem = function (id) {
@@ -93,18 +98,20 @@
 		});
 	};
 
+
 	View.prototype.render = function (viewCmd, parameter) {
-	
 		var self = this;
 		var viewCommands = {
 			showEntries: function () {
 				self.$todoList.innerHTML = self.template.show(parameter);
+				self.calculProgressBar();
 			},
 			removeItem: function () {
 				self._removeItem(parameter);
 			},
 			updateElementCount: function () {
 				self.$todoItemCounter.innerHTML = self.template.itemCounter(parameter);
+				self.calculProgressBar();
 			},
 			clearCompletedButton: function () {
 				self._clearCompletedButton(parameter.completed, parameter.visible);
@@ -113,7 +120,7 @@
 				self.$main.style.display = self.$footer.style.display = parameter.visible ? 'block' : 'none';
 			},
 			inputVisibility: function () {
-				self.$divToggle.style.display = parameter.visible ? 'flex' : 'none';
+				self.$divToggle.style.visibility = parameter.visible ? 'visible' : 'hidden';
 			},
 			toggleAll: function () {
 				self.$toggleAll.checked = parameter.checked;
@@ -132,6 +139,10 @@
 			},
 			editItemDone: function () {
 				self._editItemDone(parameter.id, parameter.title);
+			},
+			progressBar: function () {
+				self.$progressBar.style.width = `${parameter}%`;
+				self.$pourcentProgress.innerText = `${parameter}%`;
 			}
 		};
 
@@ -170,10 +181,18 @@
 				this.dataset.iscanceled = true;
 				this.blur();
 
-				handler({id: self._itemId(this)});
+				handler({ id: self._itemId(this) });
 			}
 		});
 	};
+
+	View.prototype.calculProgressBar = function () {
+		let numTodoListCompleted = qsa('.todo-list li.completed').length;
+		let numTodoListNotCompleted = qsa('.todo-list li').length;
+
+		let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted * 100) / numTodoListNotCompleted : 0;
+		this.render('progressBar', Math.round(pourcentBar));
+	}
 
 	View.prototype.bind = function (event, handler) {
 		var self = this;
@@ -189,17 +208,17 @@
 
 		} else if (event === 'toggleAll') {
 			$on(self.$toggleAll, 'click', function () {
-				handler({completed: this.checked});
+				handler({ completed: this.checked });
 			});
 
 		} else if (event === 'itemEdit') {
 			$delegate(self.$todoList, 'li label', 'dblclick', function () {
-				handler({id: self._itemId(this)});
+				handler({ id: self._itemId(this) });
 			});
 
 		} else if (event === 'itemRemove') {
 			$delegate(self.$todoList, '.destroy', 'click', function () {
-				handler({id: self._itemId(this)});
+				handler({ id: self._itemId(this) });
 			});
 
 		} else if (event === 'itemToggle') {
@@ -219,7 +238,6 @@
 	};
 
 	// Export to window
-	window.crepe = {};
 	window.app = window.app || {};
 	window.app.View = View;
 }(window));

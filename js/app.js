@@ -20,6 +20,12 @@
 	function setView() {
 		todo.controller.setView(document.location.hash);
 	}
+
+	function showProgressBar(){
+		todo.controller.progressBar();
+	}
+
 	$on(window, 'load', setView); // exécute setView quand la page aura fini de charger 
 	$on(window, 'hashchange', setView); // exécute setView si l'url change
+	$on(window, 'load', showProgressBar);
 })();

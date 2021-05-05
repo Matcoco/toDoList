@@ -51,6 +51,10 @@
 		qs('.filters [href="#/' + currentPage + '"]').className = 'selected';
 	};
 
+	View.prototype._focus = function () {
+		qs('.new-todo').focus();
+	};
+
 	View.prototype._elementComplete = function (id, completed) {
 		var listItem = qs('[data-id="' + id + '"]');
 

@@ -7,15 +7,11 @@ describe('controller', function () {
 
 	var setUpModel = function (todos) {
 		model.read.and.callFake(function (query, callback) {
-			console.log("setUpModel: ", query, callback);
-			console.log("1");
 			callback = callback || query;
 			callback(todos);
 		});
 
 		model.getCount.and.callFake(function (callback) {
-			console.log("setUpModel: ", callback);
-			console.log("2");
 			var todoCounts = {
 				active: todos.filter(function (todo) {
 					return !todo.completed;
@@ -30,27 +26,20 @@ describe('controller', function () {
 		});
 
 		model.remove.and.callFake(function (id, callback) {
-			console.log("setUpModel: ",id, callback);
-			console.log("3");
 			callback();
 		});
 
 		model.create.and.callFake(function (title, callback) {
-			console.log("setUpModel: ", title, callback);
-			console.log("4");
 			callback();
 		});
 
 		model.update.and.callFake(function (id, updateData, callback) {
-			console.log("setUpModel: ", id, updateData, callback);
-			console.log("5");
 			callback();
 		});
 	};
 
 	var createViewStub = function () {
 		var eventRegistry = {};
-		console.log(eventRegistry);
 		return {
 			render: jasmine.createSpy('render'),
 			bind: function (event, handler) {
@@ -67,7 +56,7 @@ describe('controller', function () {
 		model = jasmine.createSpyObj('model', ['read', 'getCount', 'remove', 'create', 'update']);
 		view = createViewStub();
 		subject = new app.Controller(model, view);
-		console.log(subject);
+
 	});
 
 

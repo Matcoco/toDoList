@@ -25,7 +25,12 @@
 		todo.controller.progressBar();
 	}
 
+	function focus(){
+		todo.view._focus();
+	}
+
 	$on(window, 'load', setView); // exécute setView quand la page aura fini de charger 
 	$on(window, 'hashchange', setView); // exécute setView si l'url change
 	$on(window, 'load', showProgressBar);
+	$on(window, 'load', focus); // permet d'appliquer un focus dès le lancement de l'application
 })();

@@ -1,3 +1,10 @@
+/**
+ * 
+ * @file This is the Todolist application documentation for the OpenClassRooms 8 project - Développeur d'application front-end
+ * @author Mathieu GAUBAL-VATILINGON
+ */
+
+
 
 /** 
  * Initialisation of the application

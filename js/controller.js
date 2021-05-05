@@ -8,8 +8,9 @@
 	/**
 	 * Takes a model and view and acts as the controller between them
 	 * @constructor
-	 * @param {object} model The model instance
-	 * @param {object} view The view instance
+     * @name Controller
+	 * @param {object} [model] The model instance
+	 * @param {object} [view] The view instance
 	 */
 	function Controller(model, view) {
 		const self = this;

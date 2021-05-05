@@ -1,12 +1,12 @@
-body{
+body {
 	margin: auto!important;
 }
 
-header{
-    display: flex;
+header {
+	display: flex;
 }
 
-.toggle-all + label {
+.toggle-all+label {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -21,32 +21,35 @@ header{
 .toggle-all {
 	width: 20px;
 	height: 20px;
-	border: none; /* Mobile Safari */
+	border: none;
+	/* Mobile Safari */
 	opacity: 1;
 	position: relative;
 	right: auto;
 	bottom: auto;
 }
 
-
-
 .div-toggleAll {
-    display: flex;
-	position:absolute;
-	top:39px;
-    width: 40px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	position: absolute;
+	top: 39px;
+	width: 40px;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	z-index: 999;
 }
 
-.div-input{
-    width: 100%;
+.div-input {
+	width: 100%;
 }
 
 .info {
 	font-size: 12px!important;
 }
 
-
+@media (max-width: 430px) {
+	.filters {
+		bottom: 40px;
+	}
+}

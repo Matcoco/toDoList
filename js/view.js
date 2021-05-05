@@ -191,11 +191,13 @@
 	};
 
 	View.prototype.calculProgressBar = function () {
-		let numTodoListCompleted = qsa('.todo-list li.completed').length;
-		let numTodoListNotCompleted = qsa('.todo-list li').length;
+		if(document.location.hash === '#/'){
+			let numTodoListCompleted = qsa('.todo-list li.completed').length;
+			let numTodoListNotCompleted = qsa('.todo-list li').length;
+			let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted * 100) / numTodoListNotCompleted : 0;
+			this.render('progressBar', Math.round(pourcentBar));
+		}
 
-		let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted * 100) / numTodoListNotCompleted : 0;
-		this.render('progressBar', Math.round(pourcentBar));
 	}
 
 	View.prototype.bind = function (event, handler) {

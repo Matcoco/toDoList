@@ -1,8 +1,13 @@
+
+/**
+ * Fichier : template.js
+ * @class Template
+ */
 /*jshint laxbreak:true */
 (function (window) {
 	'use strict';
 
-	var htmlEscapes = {
+	const htmlEscapes = {
 		'&': '&amp;',
 		'<': '&lt;',
 		'>': '&gt;',
@@ -11,14 +16,14 @@
 		'`': '&#x60;'
 	};
 
-	var escapeHtmlChar = function (chr) {
+	const escapeHtmlChar = function (chr) {
 		return htmlEscapes[chr];
 	};
 
-	var reUnescapedHtml = /[&<>"'`]/g;
-	var reHasUnescapedHtml = new RegExp(reUnescapedHtml.source);
+	const reUnescapedHtml = /[&<>"'`]/g;
+	const reHasUnescapedHtml = new RegExp(reUnescapedHtml.source);
 
-	var escape = function (string) {
+	const escape = function (string) {
 		return (string && reHasUnescapedHtml.test(string))
 			? string.replace(reUnescapedHtml, escapeHtmlChar)
 			: string;
@@ -26,8 +31,8 @@
 
 	/**
 	 * Sets up defaults for all the Template methods such as a default template
-	 *
 	 * @constructor
+     * @name Template
 	 */
 	function Template() {
 		this.defaultTemplate
@@ -45,8 +50,10 @@
 	 *
 	 * NOTE: In real life you should be using a templating engine such as Mustache
 	 * or Handlebars, however, this is a vanilla JS example.
-	 *
-	 * @param {object} data The object containing keys you want to find in the
+	 * @method
+     * @public
+     * @name Template.show
+	 * @param {object} [data] The object containing keys you want to find in the
 	 *                      template to replace.
 	 * @returns {string} HTML String of an <li> element
 	 *
@@ -58,46 +65,47 @@
 	 * });
 	 */
 	Template.prototype.show = function (data) {
-		var i, l;
-		var view = '';
 
-		for (i = 0, l = data.length; i < l; i++) {
-			var template = this.defaultTemplate;
-			var completed = '';
-			var checked = '';
+		let view = '';
+		data.forEach(element => {
+			let template = this.defaultTemplate;
+			let completed = '';
+			let checked = '';
 
-			if (data[i].completed) {
+			if (element.completed) {
 				completed = 'completed';
 				checked = 'checked';
 			}
 
-			template = template.replace('{{id}}', data[i].id);
-			template = template.replace('{{title}}', escape(data[i].title));
+			template = template.replace('{{id}}', element.id);
+			template = template.replace('{{title}}', escape(element.title));
 			template = template.replace('{{completed}}', completed);
 			template = template.replace('{{checked}}', checked);
-
 			view = view + template;
-		}
-
+		}); 
 		return view;
 	};
 
 	/**
 	 * Displays a counter of how many to dos are left to complete
-	 *
-	 * @param {number} activeTodos The number of active todos.
+	 * @method
+     * @public
+     * @name Template.itemCounter
+	 * @param {number} [activeTodos] The number of active todos.
 	 * @returns {string} String containing the count
 	 */
 	Template.prototype.itemCounter = function (activeTodos) {
-		var plural = activeTodos === 1 ? '' : 's';
+		const plural = activeTodos === 1 ? '' : 's';
 
 		return '<strong>' + activeTodos + '</strong> item' + plural + ' left';
 	};
 
 	/**
 	 * Updates the text within the "Clear completed" button
-	 *
-	 * @param  {number} completedTodos The number of completed todos.
+	 * @method
+     * @public
+     * @name Template.clearCompletedButton
+	 * @param  {number} [completedTodos] The number of completed todos.
 	 * @returns {string} String containing the count
 	 */
 	Template.prototype.clearCompletedButton = function (completedTodos) {

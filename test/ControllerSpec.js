@@ -3,16 +3,16 @@
 describe('controller', function () {
 	'use strict';
 
-	var subject, model, view;
+	let subject, model, view;
 
-	var setUpModel = function (todos) {
+	const setUpModel = function (todos) {
 		model.read.and.callFake(function (query, callback) {
 			callback = callback || query;
 			callback(todos);
 		});
 
 		model.getCount.and.callFake(function (callback) {
-			var todoCounts = {
+			const todoCounts = {
 				active: todos.filter(function (todo) {
 					return !todo.completed;
 				}).length,

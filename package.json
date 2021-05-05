@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "jasmine-core": "^2.0.0",
-    "jsdoc": "^3.6.6"
+    "jsdoc": "^3.6.6",
+    "minami": "^1.2.3"
   }
 }

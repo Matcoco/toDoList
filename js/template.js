@@ -47,7 +47,6 @@
 
 	/**
 	 * Creates an <li> HTML string and returns it for placement in your app.
-	 *
 	 * NOTE: In real life you should be using a templating engine such as Mustache
 	 * or Handlebars, however, this is a vanilla JS example.
 	 * @method
@@ -56,7 +55,6 @@
 	 * @param {object} [data] The object containing keys you want to find in the
 	 *                      template to replace.
 	 * @returns {string} HTML String of an <li> element
-	 *
 	 * @example
 	 * view.show({
 	 *	id: 1,
@@ -65,7 +63,6 @@
 	 * });
 	 */
 	Template.prototype.show = function (data) {
-
 		let view = '';
 		data.forEach(element => {
 			let template = this.defaultTemplate;

@@ -184,7 +184,7 @@
 			contentBlockVisibility: function () {
 				self.$main.style.display = self.$footer.style.display = parameter.visible ? 'block' : 'none';
 			},
-			inputVisibility: function () {
+			checkboxToggleVisibility: function () {
 				self.$divToggle.style.visibility = parameter.visible ? 'visible' : 'hidden';
 			},
 			toggleAll: function () {
@@ -210,7 +210,6 @@
 				self.$pourcentProgress.innerText = `${parameter}%`;
 			}
 		};
-
 		viewCommands[viewCmd]();
 	};
 
@@ -299,6 +298,7 @@
 	*/
 	View.prototype.bind = function (event, handler) {
 		var self = this;
+	
 		switch (event) {
 			case 'newTodo':
 				$on(self.$newTodo, 'change', function () {

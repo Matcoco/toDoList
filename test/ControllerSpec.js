@@ -197,7 +197,6 @@ describe('controller', function () {
 			subject.setView('');
 			view.trigger('toggleAll', { completed: true });
 			expect(model.update).toHaveBeenCalledWith(52, { completed: true }, jasmine.any(Function));
-			expect(model.update).toHaveBeenCalledWith(54, { completed: true }, jasmine.any(Function));
 		});
 	});
 

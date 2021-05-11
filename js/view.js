@@ -24,6 +24,7 @@
 
 		this.ENTER_KEY = 13;
 		this.ESCAPE_KEY = 27;
+		this.todos = {};
 
 		this.$todoList = qs('.todo-list');
 		this.$todoItemCounter = qs('.todo-count');
@@ -169,14 +170,12 @@
 		const viewCommands = {
 			showEntries: function () {
 				self.$todoList.innerHTML = self.template.show(parameter);
-				self.calculProgressBar();
 			},
 			removeItem: function () {
 				self._removeItem(parameter);
 			},
 			updateElementCount: function () {
 				self.$todoItemCounter.innerHTML = self.template.itemCounter(parameter);
-				self.calculProgressBar();
 			},
 			clearCompletedButton: function () {
 				self._clearCompletedButton(parameter.completed, parameter.visible);
@@ -273,19 +272,19 @@
 	};
 
 	/**
-	* Handler
 	* @method
 	* @public
 	* @name View.calculProgressBar 
 	*/
 	View.prototype.calculProgressBar = function () {
-		if (document.location.hash === '#/') {
-			let numTodoListCompleted = qsa('.todo-list li.completed').length;
-			let numTodoListNotCompleted = qsa('.todo-list li').length;
-			let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted * 100) / numTodoListNotCompleted : 0;
-			this.render('progressBar', Math.round(pourcentBar));
+		const self = this; 
+		const _calculBar = () => {
+			let numTodoListCompleted = this.todos.completed;
+			let totalTodos = this.todos.total;
+			let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted / totalTodos) * 100 : 0;
+			self.render('progressBar', Math.round(pourcentBar));
 		}
-
+		_calculBar();
 	}
 
 	/**
@@ -298,7 +297,7 @@
 	*/
 	View.prototype.bind = function (event, handler) {
 		var self = this;
-	
+
 		switch (event) {
 			case 'newTodo':
 				$on(self.$newTodo, 'change', function () {

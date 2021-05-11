@@ -316,6 +316,7 @@
 		}
 
 		this._lastActiveRoute = activeRoute;
+		this.progressBar();
 	};
 
 	/**
@@ -340,10 +341,17 @@
 	};
 
 	/**
-	* Simply updates the progress bar
+	* update the progress bar
+	*@method
+	*@public
+	*@name Controller.progressBar
 	*/
 	Controller.prototype.progressBar = function () {
-		this.view.calculProgressBar();
+		let self = this;
+		self.model.getCount(function(todos){
+			self.view.todos = todos;
+			self.view.calculProgressBar();
+		})
 	};
 
 

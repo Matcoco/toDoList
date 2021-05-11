@@ -117,7 +117,7 @@
 			return;
 		}
 
-		self.model.create(title, function () {
+		self.model.create(title, function (data) {
 			self.view.render('clearNewTodo');
 			self._filter(true);
 		});
@@ -192,16 +192,17 @@
 	Controller.prototype.removeItem = function (id) {
 		const self = this;
 		let items;
-		self.model.read(function (data) {
+
+		// boucle inutile car affiche l'element qui a été supprimé
+/* 		self.model.read(function (data) {
 			items = data;
 		});
-
-		/// faire sauter cette boucle => filter
+		
 		items.forEach(function (item) {
 			if (item.id === id) {
 				//console.log("Element with ID: " + id + " has been removed.");
 			}
-		});
+		}); */
 
 		self.model.remove(id, function () {
 			self.view.render('removeItem', id);
@@ -288,7 +289,7 @@
 			});
 			self.view.render('toggleAll', { checked: todos.completed === todos.total });
 			self.view.render('contentBlockVisibility', { visible: todos.total > 0 });
-			self.view.render('inputVisibility', { visible: todos.total > 0 });
+			self.view.render('checkboxToggleVisibility', { visible: todos.total > 0 });
 		});
 	};
 
@@ -301,6 +302,7 @@
 	 */
 	Controller.prototype._filter = function (force) {
 		const activeRoute = this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1);
+	
 
 		// Update the elements on the page, which change with each completed todo
 		this._updateCount();
@@ -308,11 +310,13 @@
 		// If the last active route isn't "All", or we're switching routes, we
 		// re-create the todo item elements, calling:
 		//   this.show[All|Active|Completed]();
+	
 		if (force || this._lastActiveRoute !== 'All' || this._lastActiveRoute !== activeRoute) {
 			this[`show${activeRoute}`]();
 		}
 
 		this._lastActiveRoute = activeRoute;
+		this.progressBar();
 	};
 
 	/**
@@ -328,7 +332,7 @@
 		this._activeRoute = currentPage;
 
 		if (currentPage === '') {
-			this._activeRoute = 'All';
+			this._activeRoute = 'all';
 		}
 
 		this._filter();
@@ -337,10 +341,17 @@
 	};
 
 	/**
-	* Simply updates the progress bar
+	* update the progress bar
+	*@method
+	*@public
+	*@name Controller.progressBar
 	*/
 	Controller.prototype.progressBar = function () {
-		this.view.calculProgressBar();
+		let self = this;
+		self.model.getCount(function(todos){
+			self.view.todos = todos;
+			self.view.calculProgressBar();
+		})
 	};
 
 

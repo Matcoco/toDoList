@@ -54,15 +54,18 @@
 	 * model.read({ foo: 'bar', hello: 'world' });
 	 */
 	Model.prototype.read = function (query, callback) {
+	
 		const queryType = typeof query;
 		callback = callback || function () {};
 
 		if (queryType === 'function') {
 			callback = query;
+			
 			return this.storage.findAll(callback);
 		} else if (queryType === 'string' || queryType === 'number') {
 			query = parseInt(query, 10);
 			this.storage.find({ id: query }, callback);
+		
 		} else {
 			this.storage.find(query, callback);
 		}
@@ -113,6 +116,7 @@
      * @param {function} [callback] The callback to fire.
 	 */
 	Model.prototype.getCount = function (callback) {
+
 		const todos = {
 			active: 0,
 			completed: 0,
@@ -120,7 +124,7 @@
 		};
 
 		this.storage.findAll(function (data) {
-			data.forEach(function (todo) {
+			data.forEach(todo => {
 				if (todo.completed) {
 					todos.completed++;
 				} else {

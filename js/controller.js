@@ -8,7 +8,7 @@
 	/**
 	 * Takes a model and view and acts as the controller between them
 	 * @constructor
-     * @name Controller
+	 * @name Controller
 	 * @param {object} [model] The model instance
 	 * @param {object} [view] The view instance
 	 */
@@ -48,13 +48,17 @@
 		self.view.bind('toggleAll', function (status) {
 			self.toggleAll(status.completed);
 		});
+
+		self.view.bind('progress', function (status) {
+			self.calculProgressBar(status.completed);
+		});
 	}
 
 	/**
 	 * Loads and initialises the view
 	 * @method
-     * @public
-     * @name Controller.setView
+	 * @public
+	 * @name Controller.setView
 	 * @param {string} '' | 'active' | 'completed'
 	 */
 	Controller.prototype.setView = function (locationHash) {
@@ -66,8 +70,8 @@
 	/**
 	 * An event to fire on load. Will get all items and display them in the
 	 * todo-list
-     * @method
-     * @public
+	 * @method
+	 * @public
 	 * @name Controller.showAll
 	 */
 	Controller.prototype.showAll = function () {
@@ -80,7 +84,7 @@
 	/**
 	 * Renders all active tasks
 	 * @method
-     * @public
+	 * @public
 	 * @name Controller.showActive
 	 */
 	Controller.prototype.showActive = function () {
@@ -93,7 +97,7 @@
 	/**
 	 * Renders all completed tasks
 	 * @method
-     * @public
+	 * @public
 	 * @name Controller.showCompleted
 	 */
 	Controller.prototype.showCompleted = function () {
@@ -107,7 +111,7 @@
 	 * An event to fire whenever you want to add an item. Simply pass in the event
 	 * object and it'll handle the DOM insertion and saving of the new item.
 	 * @method
-     * @public
+	 * @public
 	 * @name Controller.addItem
 	 */
 	Controller.prototype.addItem = function (title) {
@@ -125,10 +129,10 @@
 
 	/**
 	 * Triggers the item editing mode.
-     * @method
-     * @public
-     * @name Controller.editItem
-     * @param {number} [id] The ID of the item
+	 * @method
+	 * @public
+	 * @name Controller.editItem
+	 * @param {number} [id] The ID of the item
 	 */
 	Controller.prototype.editItem = function (id) {
 		const self = this;
@@ -139,11 +143,11 @@
 
 	/**
 	 * Finishes the item editing mode successfully.
-     * @method
-     * @public
-     * @name Controller.editItemSave
-     * @param {number} [id] The ID of the item
-     * @param {string} [title] title of the item
+	 * @method
+	 * @public
+	 * @name Controller.editItemSave
+	 * @param {number} [id] The ID of the item
+	 * @param {string} [title] title of the item
 	 */
 	Controller.prototype.editItemSave = function (id, title) {
 		const self = this;
@@ -167,10 +171,10 @@
 
 	/**
 	 * Cancels the item editing mode.
-     * @method
-     * @public
-     * @name Controller.editItemCancel
-     * @param {number} [id] The ID of the item
+	 * @method
+	 * @public
+	 * @name Controller.editItemCancel
+	 * @param {number} [id] The ID of the item
 	 */
 	Controller.prototype.editItemCancel = function (id) {
 		const self = this;
@@ -185,8 +189,8 @@
 	 *
 	 * @param {number} id The ID of the item to remove from the DOM and
 	 * @method
-     * @public
-     * @name Controller.removeItem
+	 * @public
+	 * @name Controller.removeItem
 	 * storage
 	 */
 	Controller.prototype.removeItem = function (id) {
@@ -194,15 +198,15 @@
 		let items;
 
 		// boucle inutile car affiche l'element qui a été supprimé
-/* 		self.model.read(function (data) {
-			items = data;
-		});
-		
-		items.forEach(function (item) {
-			if (item.id === id) {
-				//console.log("Element with ID: " + id + " has been removed.");
-			}
-		}); */
+		/* 		self.model.read(function (data) {
+					items = data;
+				});
+				
+				items.forEach(function (item) {
+					if (item.id === id) {
+						//console.log("Element with ID: " + id + " has been removed.");
+					}
+				}); */
 
 		self.model.remove(id, function () {
 			self.view.render('removeItem', id);
@@ -213,9 +217,9 @@
 
 	/**
 	 * Will remove all completed items from the DOM and storage.
-     * @method
-     * @public
-     * @name Controller.removeCompletedItems
+	 * @method
+	 * @public
+	 * @name Controller.removeCompletedItems
 	 */
 	Controller.prototype.removeCompletedItems = function () {
 		const self = this;
@@ -232,8 +236,8 @@
 	 * Give it an ID of a model and a checkbox and it will update the item
 	 * in storage based on the checkbox's state.
 	 * @method
-     * @public
-     * @name Controller.toggleComplete
+	 * @public
+	 * @name Controller.toggleComplete
 	 * @param {number} id The ID of the element to complete or uncomplete
 	 * @param {object} checkbox The checkbox to check the state of complete
 	 *                          or not
@@ -257,9 +261,9 @@
 	 * Will toggle ALL checkboxes' on/off state and completeness of models.
 	 * Just pass in the event object.
 	 * @method
-     * @public
-     * @name Controller.toggleAll
-     * @param {boolean} [completed] The checkbox to check the state of complete or not
+	 * @public
+	 * @name Controller.toggleAll
+	 * @param {boolean} [completed] The checkbox to check the state of complete or not
 	 */
 	Controller.prototype.toggleAll = function (completed) {
 		const self = this;
@@ -275,9 +279,9 @@
 	/**
 	 * Updates the pieces of the page which change depending on the remaining
 	 * number of todos.
-     * @method
-     * @private
-     * @name Controller._updateCount
+	 * @method
+	 * @private
+	 * @name Controller._updateCount
 	 */
 	Controller.prototype._updateCount = function () {
 		const self = this;
@@ -296,13 +300,13 @@
 	/**
 	 * Re-filters the todo items, based on the active route.
 	 * @method
-     * @private
-     * @name Controller._filter
+	 * @private
+	 * @name Controller._filter
 	 * @param {boolean|undefined} [force]  forces a re-painting of todo items.
 	 */
 	Controller.prototype._filter = function (force) {
 		const activeRoute = this._activeRoute.charAt(0).toUpperCase() + this._activeRoute.substr(1);
-	
+
 
 		// Update the elements on the page, which change with each completed todo
 		this._updateCount();
@@ -310,7 +314,7 @@
 		// If the last active route isn't "All", or we're switching routes, we
 		// re-create the todo item elements, calling:
 		//   this.show[All|Active|Completed]();
-	
+
 		if (force || this._lastActiveRoute !== 'All' || this._lastActiveRoute !== activeRoute) {
 			this[`show${activeRoute}`]();
 		}
@@ -321,10 +325,10 @@
 
 	/**
 	 * Simply updates the filter nav's selected states
-     * @method
-     * @private
-     * @name Controller._updateFilterState
-     * @param {string} [currentPage] The current active route
+	 * @method
+	 * @private
+	 * @name Controller._updateFilterState
+	 * @param {string} [currentPage] The current active route
 	 */
 	Controller.prototype._updateFilterState = function (currentPage) {
 		// Store a reference to the active route, allowing us to re-filter todo
@@ -348,9 +352,11 @@
 	*/
 	Controller.prototype.progressBar = function () {
 		let self = this;
-		self.model.getCount(function(todos){
-			self.view.todos = todos;
-			self.view.calculProgressBar();
+		self.model.getCount(function (todos) {
+			let numTodoListCompleted = todos.completed;
+			let totalTodos = todos.total;
+			let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted / totalTodos) * 100 : 0;
+			self.view.render('progressBar', pourcentBar );
 		})
 	};
 

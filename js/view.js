@@ -24,7 +24,6 @@
 
 		this.ENTER_KEY = 13;
 		this.ESCAPE_KEY = 27;
-		this.todos = {};
 
 		this.$todoList = qs('.todo-list');
 		this.$todoItemCounter = qs('.todo-count');
@@ -37,8 +36,6 @@
 
 		this.$progressBar = qs('.progress-bar');
 		this.$pourcentProgress = qs('#pourcentProgress');
-		this.$todoCompleted = qsa('.todo-list li.completed');
-		this.$todoNotCompleted = qsa('.todo-list li');
 	}
 
 	/**
@@ -271,21 +268,6 @@
 		});
 	};
 
-	/**
-	* @method
-	* @public
-	* @name View.calculProgressBar 
-	*/
-	View.prototype.calculProgressBar = function () {
-		const self = this; 
-		const _calculBar = () => {
-			let numTodoListCompleted = this.todos.completed;
-			let totalTodos = this.todos.total;
-			let pourcentBar = numTodoListCompleted > 0 ? (numTodoListCompleted / totalTodos) * 100 : 0;
-			self.render('progressBar', Math.round(pourcentBar));
-		}
-		_calculBar();
-	}
 
 	/**
 	* Handler
